@@ -115,14 +115,14 @@ class Entropy(object):
 		plt.ylabel('Entropy (J/K-mol)')
 		# plt.xlim(-0.1,)
 		# plt.ylim(220,240)
-		plt.savefig('entropy_cat.png',dpi=300)
+		plt.savefig('entropy_cat_'+str(temperature)+'.png',dpi=300)
 		# plt.show()
 		return
 
 # --------VARIABLES-------- #
 
 # the dump file format is "id type mass x y z "
-dump = "./cationdump_300.dat"
+dump = './cationdump_'+str(temperature)+'.dat'
 
 # dump interval step number
 inter_step = 5
@@ -144,9 +144,10 @@ if __name__ == '__main__':
 	entropy = entropy_list_x + entropy_list_y + entropy_list_z
 	
 	data = np.hstack((time,entropy))
-	np.savetxt('entropy_cat.dat',data,'%f ' ' %f')
-
-	print(data)
+	entropy_average = np.mean(entropy,axis=0)
+	np.savetxt('entropy_cat_'+str(temperature)+'.dat',data,'%f ' ' %f')
+	np.savetxt('entropy_cat_average_'+str(temperature)+'.dat',entropy_average,'%f')
+	print(entropy_average)
 	S.plot(time,entropy)
 
 print('-----------------Done!-----------------')
